@@ -1,0 +1,143 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 620" font-family="Microsoft YaHei,PingFang SC,sans-serif">
+  <rect width="980" height="620" fill="#ffffff"/>
+  <text x="490" y="30" text-anchor="middle" font-size="19" font-weight="bold" fill="#1a1a1a">数控 BUCK 的控制链路：从模拟电压到 PWM 占空比</text>
+  <text x="490" y="52" text-anchor="middle" font-size="13" fill="#777">两条执行线：1kHz 硬实时中断（控制环）+ 主循环（人机界面，可慢）</text>
+
+  <defs>
+    <marker id="a1" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 z" fill="#555"/>
+    </marker>
+    <marker id="a2" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 z" fill="#c62828"/>
+    </marker>
+    <marker id="a3" markerWidth="10" markerHeight="10" refX="8" refY="3.5" orient="auto">
+      <path d="M0,0 L8,3.5 L0,7 z" fill="#1565c0"/>
+    </marker>
+  </defs>
+
+  <!-- ========== 实时中断区 ========== -->
+  <rect x="16" y="70" width="948" height="308" rx="8" fill="#fff8f0" stroke="#e0c9a0" stroke-width="1.5"/>
+  <text x="34" y="94" font-size="15" font-weight="bold" fill="#e65100">TIM2 中断 · 1 kHz（每 1 ms 执行一次）→ HAL_TIM_PeriodElapsedCallback()　main.c:612</text>
+
+  <!-- 硬件采样层 -->
+  <rect x="34" y="108" width="196" height="86" rx="6" fill="#fff" stroke="#999"/>
+  <text x="132" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">① 硬件采样</text>
+  <text x="132" y="150" text-anchor="middle" font-size="11.5" fill="#555">ADC1 + DMA 循环</text>
+  <text x="132" y="167" text-anchor="middle" font-size="11.5" fill="#555">PC0 电流 / PC1 输入</text>
+  <text x="132" y="184" text-anchor="middle" font-size="11.5" fill="#555">PC2 输出，自由连续转换</text>
+
+  <!-- ADC_Process -->
+  <rect x="266" y="108" width="196" height="86" rx="6" fill="#fff" stroke="#999"/>
+  <text x="364" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#333">② ADC_Process()</text>
+  <text x="364" y="150" text-anchor="middle" font-size="11.5" fill="#555">16 点滑动平均</text>
+  <text x="364" y="167" text-anchor="middle" font-size="11.5" fill="#555">环形缓冲 + 移位除 16</text>
+  <text x="364" y="184" text-anchor="middle" font-size="11.5" fill="#555">再按分压比换算物理量</text>
+
+  <line x1="230" y1="151" x2="264" y2="151" stroke="#555" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- 保护判断 -->
+  <rect x="498" y="108" width="196" height="86" rx="6" fill="#ffebee" stroke="#c62828" stroke-width="1.5"/>
+  <text x="596" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#c62828">③ 保护判断</text>
+  <text x="596" y="149" text-anchor="middle" font-size="11.5" fill="#444">Vin&gt;48V 或 Vout&gt;16V</text>
+  <text x="596" y="166" text-anchor="middle" font-size="11.5" fill="#444">或 Iout&gt;1.2A 或 Vin&lt;18V</text>
+  <text x="596" y="184" text-anchor="middle" font-size="11" fill="#c62828">命中→关输出+清PID+断使能</text>
+
+  <line x1="462" y1="151" x2="496" y2="151" stroke="#555" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- 模式选择 -->
+  <rect x="730" y="108" width="216" height="86" rx="6" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+  <text x="838" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">④ work_mode 二选一</text>
+  <text x="838" y="150" text-anchor="middle" font-size="11.5" fill="#444">MODE_CV → 电压环</text>
+  <text x="838" y="167" text-anchor="middle" font-size="11.5" fill="#444">MODE_CC → 电流环</text>
+  <text x="838" y="185" text-anchor="middle" font-size="11" fill="#c62828">⚠ 无自动切换逻辑</text>
+
+  <line x1="694" y1="151" x2="728" y2="151" stroke="#555" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- PID -->
+  <rect x="200" y="236" width="270" height="118" rx="6" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.6"/>
+  <text x="335" y="258" text-anchor="middle" font-size="13.5" font-weight="bold" fill="#1b5e20">⑤ 增量式 PID　pid.c:159</text>
+  <text x="335" y="280" text-anchor="middle" font-size="12" fill="#333">Δu = Kp·(e_k − e_k-1)</text>
+  <text x="335" y="298" text-anchor="middle" font-size="12" fill="#333">　　+ Ki·e_k</text>
+  <text x="335" y="316" text-anchor="middle" font-size="12" fill="#333">　　+ Kd·(e_k − 2e_k-1 + e_k-2)</text>
+  <text x="335" y="340" text-anchor="middle" font-size="11.5" fill="#1b5e20">out += Δu　(累加在结构体内)</text>
+
+  <path d="M838,194 L838,215 L470,215 L470,236" fill="none" stroke="#1565c0" stroke-width="2" marker-end="url(#a3)"/>
+  <text x="640" y="210" text-anchor="middle" font-size="11.5" fill="#1565c0">v_out / i_out 作为反馈量</text>
+
+  <!-- 目标值输入 -->
+  <rect x="34" y="248" width="132" height="94" rx="6" fill="#fffde7" stroke="#f9a825" stroke-width="1.5"/>
+  <text x="100" y="270" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#f57f17">目标值</text>
+  <text x="100" y="290" text-anchor="middle" font-size="11" fill="#555">target_voltage</text>
+  <text x="100" y="306" text-anchor="middle" font-size="11" fill="#555">5.0 ~ 15.0 V</text>
+  <text x="100" y="326" text-anchor="middle" font-size="11" fill="#555">target_current</text>
+  <text x="100" y="340" text-anchor="middle" font-size="11" fill="#555">0.1 ~ 1.0 A</text>
+
+  <line x1="166" y1="295" x2="198" y2="295" stroke="#f9a825" stroke-width="2" marker-end="url(#a1)"/>
+  <text x="182" y="288" text-anchor="middle" font-size="10" fill="#f57f17">set</text>
+
+  <!-- 合成占空比 -->
+  <rect x="512" y="236" width="196" height="118" rx="6" fill="#fce4ec" stroke="#c2185b" stroke-width="1.6"/>
+  <text x="610" y="258" text-anchor="middle" font-size="13" font-weight="bold" fill="#880e4f">⑥ 合成占空比</text>
+  <text x="610" y="280" text-anchor="middle" font-size="11" fill="#c62828">pwm_out = target + (uint32)out</text>
+  <text x="610" y="302" text-anchor="middle" font-size="10.5" fill="#666">main.c:645 / 660</text>
+  <text x="610" y="324" text-anchor="middle" font-size="10.5" fill="#c62828">⚠ 把伏特当计数值加</text>
+  <text x="610" y="340" text-anchor="middle" font-size="10.5" fill="#c62828">⚠ 负值转 uint32 = 0</text>
+
+  <line x1="470" y1="295" x2="510" y2="295" stroke="#555" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- 钳位 + 写寄存器 -->
+  <rect x="750" y="236" width="196" height="118" rx="6" fill="#ede7f6" stroke="#512da8" stroke-width="1.6"/>
+  <text x="848" y="258" text-anchor="middle" font-size="13" font-weight="bold" fill="#311b92">⑦ 钳位 → 写寄存器</text>
+  <text x="848" y="280" text-anchor="middle" font-size="11.5" fill="#444">[100 , 740]</text>
+  <text x="848" y="297" text-anchor="middle" font-size="11" fill="#777">11.9% ~ 88.1%</text>
+  <text x="848" y="320" text-anchor="middle" font-size="11.5" fill="#444">TIM1_CH1 CCR1</text>
+  <text x="848" y="338" text-anchor="middle" font-size="11" fill="#512da8">ARR=839 → 100 kHz</text>
+
+  <line x1="708" y1="295" x2="748" y2="295" stroke="#555" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- ========== 人机界面区 ========== -->
+  <rect x="16" y="392" width="948" height="128" rx="8" fill="#f5f5f5" stroke="#bbb" stroke-width="1.5"/>
+  <text x="34" y="414" font-size="14" font-weight="bold" fill="#424242">主循环 while(1) · 非实时（含 HAL_Delay(50) + OLED 全屏 I2C 阻塞 ≈ 30 ms，实际约 5.5 Hz）</text>
+
+  <rect x="34" y="428" width="176" height="76" rx="6" fill="#fff" stroke="#999"/>
+  <text x="122" y="450" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#333">3 个按键</text>
+  <text x="122" y="469" text-anchor="middle" font-size="11" fill="#555">PC7 / PC8 / PC9</text>
+  <text x="122" y="486" text-anchor="middle" font-size="11" fill="#555">改目标值、切模式</text>
+  <text x="122" y="500" text-anchor="middle" font-size="10.5" fill="#888">key.c 扫描(中断内)</text>
+
+  <rect x="240" y="428" width="176" height="76" rx="6" fill="#fff" stroke="#999"/>
+  <text x="328" y="450" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#333">TJC 串口屏</text>
+  <text x="328" y="469" text-anchor="middle" font-size="11" fill="#555">USART1 PA9/PA10</text>
+  <text x="328" y="486" text-anchor="middle" font-size="11" fill="#555">115200 中断收发</text>
+  <text x="328" y="500" text-anchor="middle" font-size="10.5" fill="#888">tjc_hmi.c</text>
+
+  <rect x="446" y="428" width="176" height="76" rx="6" fill="#fff" stroke="#999"/>
+  <text x="534" y="450" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#333">OLED 0.96"</text>
+  <text x="534" y="469" text-anchor="middle" font-size="11" fill="#555">I2C2 PB7/PB8</text>
+  <text x="534" y="486" text-anchor="middle" font-size="11" fill="#555">全屏重绘 8 页 ×128B</text>
+  <text x="534" y="500" text-anchor="middle" font-size="10.5" fill="#c62828">HAL_MAX_DELAY ⚠</text>
+
+  <rect x="652" y="428" width="294" height="76" rx="6" fill="#fff3e0" stroke="#ef6c00"/>
+  <text x="800" y="450" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#e65100">两条使能线（功率级总闸）</text>
+  <text x="800" y="470" text-anchor="middle" font-size="11.5" fill="#444">DC_EN (PB9) → IR2104 SD，关断栅极驱动</text>
+  <text x="800" y="489" text-anchor="middle" font-size="11.5" fill="#444">VOUT_EN (PA15) → 输出继电器</text>
+  <text x="800" y="506" text-anchor="middle" font-size="10.5" fill="#777">保护动作时两个一起拉低</text>
+
+  <!-- 输出到硬件 -->
+  <path d="M848,354 L848,378 L960,378" fill="none" stroke="#512da8" stroke-width="2" stroke-dasharray="5 3"/>
+  <rect x="770" y="540" width="192" height="62" rx="6" fill="#eceff1" stroke="#546e7a" stroke-width="1.5"/>
+  <text x="866" y="562" text-anchor="middle" font-size="13" font-weight="bold" fill="#37474f">IR2104 半桥驱动</text>
+  <text x="866" y="580" text-anchor="middle" font-size="11" fill="#546e7a">IN → HO/LO 互补 + 525ns 死区</text>
+  <text x="866" y="595" text-anchor="middle" font-size="10.5" fill="#777">→ Q1/Q2 → L/Cout → 负载</text>
+  <path d="M960,378 L960,571 L962,571" fill="none" stroke="#546e7a" stroke-width="2"/>
+  <path d="M955,571 L866,571" fill="none" stroke="#546e7a" stroke-width="0"/>
+  <path d="M960,378 L960,571 L964,571" fill="none" stroke="#546e7a" stroke-width="0"/>
+  <line x1="960" y1="571" x2="962" y2="571" stroke="#546e7a" stroke-width="2"/>
+  <path d="M960,378 L960,570 L866,570 L866,540" fill="none" stroke="#546e7a" stroke-width="2" marker-end="url(#a1)"/>
+
+  <!-- 反馈回环 -->
+  <path d="M770,571 L120,571 L120,344" fill="none" stroke="#2e7d32" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#a1)"/>
+  <text x="420" y="563" text-anchor="middle" font-size="12" fill="#2e7d32" font-weight="bold">模拟反馈：分压电阻网络 + 电流采样 → PC0/PC1/PC2 → 闭环</text>
+
+  <text x="34" y="612" font-size="11.5" fill="#888">关键理解：控制环跑在中断里（快、可预测），显示跑在主循环里（慢、可阻塞）——这个分层是对的，数控电源的标准做法。</text>
+</svg>

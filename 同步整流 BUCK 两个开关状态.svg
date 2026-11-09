@@ -1,0 +1,156 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 500" font-family="Microsoft YaHei,PingFang SC,sans-serif">
+  <rect width="980" height="500" fill="#ffffff"/>
+  <text x="490" y="28" text-anchor="middle" font-size="19" font-weight="bold" fill="#1a1a1a">同步整流 BUCK：一个开关周期内的两个状态（CCM 连续导通模式）</text>
+
+  <defs>
+    <marker id="arw" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L7,3.2 L0,6.4 z" fill="#d33"/>
+    </marker>
+    <marker id="arb" markerWidth="9" markerHeight="9" refX="7" refY="3.2" orient="auto">
+      <path d="M0,0 L7,3.2 L0,6.4 z" fill="#1565c0"/>
+    </marker>
+    <marker id="arg" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto">
+      <path d="M0,0 L6,3 L0,6 z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- ================= 左：状态1 ================= -->
+  <rect x="14" y="46" width="466" height="392" rx="8" fill="#fff5f5" stroke="#e8b4b4"/>
+  <text x="247" y="70" text-anchor="middle" font-size="15" font-weight="bold" fill="#c62828">状态①  Q1 导通 · Q2 截止　(0 → D·T)</text>
+
+  <!-- Vin -->
+  <text x="52" y="140" text-anchor="middle" font-size="13" fill="#333">Vin</text>
+  <text x="52" y="157" text-anchor="middle" font-size="12" fill="#777">24V</text>
+  <line x1="38" y1="170" x2="66" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="44" y1="180" x2="60" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="52" y1="100" x2="52" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="52" y1="180" x2="52" y2="330" stroke="#333" stroke-width="2"/>
+  <line x1="52" y1="100" x2="180" y2="100" stroke="#d33" stroke-width="3.5" marker-end="url(#arw)"/>
+
+  <!-- Q1 ON -->
+  <rect x="152" y="118" width="56" height="46" rx="4" fill="#ffcdd2" stroke="#c62828" stroke-width="2"/>
+  <text x="180" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#b71c1c">Q1</text>
+  <text x="180" y="156" text-anchor="middle" font-size="11" fill="#b71c1c">ON</text>
+  <line x1="180" y1="100" x2="180" y2="118" stroke="#d33" stroke-width="3.5"/>
+  <line x1="180" y1="164" x2="180" y2="200" stroke="#d33" stroke-width="3.5" marker-end="url(#arw)"/>
+  <text x="140" y="145" text-anchor="end" font-size="11" fill="#888">G(高边驱动)</text>
+
+  <!-- Q2 OFF -->
+  <rect x="152" y="230" width="56" height="46" rx="4" fill="#eeeeee" stroke="#999" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="180" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#888">Q2</text>
+  <text x="180" y="268" text-anchor="middle" font-size="11" fill="#888">OFF</text>
+  <line x1="180" y1="276" x2="180" y2="330" stroke="#999" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="140" y="257" text-anchor="end" font-size="11" fill="#888">G</text>
+
+  <!-- SW node -->
+  <circle cx="180" cy="200" r="4" fill="#d33"/>
+  <text x="180" y="222" text-anchor="middle" font-size="12" font-weight="bold" fill="#c62828">SW</text>
+  <line x1="180" y1="200" x2="180" y2="230" stroke="#999" stroke-width="1.6" stroke-dasharray="4 3"/>
+
+  <!-- L -->
+  <line x1="180" y1="200" x2="230" y2="200" stroke="#d33" stroke-width="3.5"/>
+  <path d="M230,200 a11,11 0 0 1 22,0 a11,11 0 0 1 22,0 a11,11 0 0 1 22,0" fill="none" stroke="#333" stroke-width="2.4"/>
+  <text x="263" y="182" text-anchor="middle" font-size="13" fill="#333">L (储能电感)</text>
+  <line x1="296" y1="200" x2="360" y2="200" stroke="#d33" stroke-width="3.5" marker-end="url(#arw)"/>
+
+  <!-- Cout -->
+  <line x1="330" y1="200" x2="330" y2="238" stroke="#333" stroke-width="2"/>
+  <line x1="316" y1="238" x2="344" y2="238" stroke="#333" stroke-width="2.6"/>
+  <line x1="316" y1="248" x2="344" y2="248" stroke="#333" stroke-width="2.6"/>
+  <line x1="330" y1="248" x2="330" y2="330" stroke="#333" stroke-width="2"/>
+  <text x="306" y="272" text-anchor="end" font-size="12" fill="#333">Cout</text>
+
+  <!-- Rload -->
+  <line x1="400" y1="200" x2="400" y2="232" stroke="#d33" stroke-width="3.5"/>
+  <rect x="390" y="232" width="20" height="66" fill="#fff" stroke="#333" stroke-width="2.2"/>
+  <line x1="400" y1="298" x2="400" y2="330" stroke="#333" stroke-width="2"/>
+  <text x="422" y="270" font-size="12" fill="#333">负载</text>
+  <text x="422" y="287" font-size="11" fill="#777">R</text>
+  <line x1="360" y1="200" x2="400" y2="200" stroke="#d33" stroke-width="3.5"/>
+
+  <!-- Vout label -->
+  <text x="452" y="204" font-size="13" font-weight="bold" fill="#2e7d32">Vout</text>
+
+  <!-- GND -->
+  <line x1="52" y1="330" x2="400" y2="330" stroke="#333" stroke-width="2"/>
+  <line x1="206" y1="330" x2="246" y2="330" stroke="#333" stroke-width="2.6"/>
+  <line x1="214" y1="338" x2="238" y2="338" stroke="#333" stroke-width="2.2"/>
+  <line x1="221" y1="346" x2="231" y2="346" stroke="#333" stroke-width="1.8"/>
+
+  <text x="247" y="378" text-anchor="middle" font-size="13" fill="#c62828" font-weight="bold">电源直接给负载供电，同时给 L 充磁</text>
+  <text x="247" y="400" text-anchor="middle" font-size="12.5" fill="#444">V_L = Vin − Vout &gt; 0　→　i_L 线性上升</text>
+  <text x="247" y="422" text-anchor="middle" font-size="12" fill="#777">di/dt = (Vin − Vout) / L</text>
+
+  <!-- ================= 右：状态2 ================= -->
+  <rect x="500" y="46" width="466" height="392" rx="8" fill="#f3f8ff" stroke="#b3cdea"/>
+  <text x="733" y="70" text-anchor="middle" font-size="15" font-weight="bold" fill="#1565c0">状态②  Q1 截止 · Q2 导通　(D·T → T)</text>
+
+  <!-- Vin -->
+  <text x="538" y="140" text-anchor="middle" font-size="13" fill="#333">Vin</text>
+  <text x="538" y="157" text-anchor="middle" font-size="12" fill="#777">24V</text>
+  <line x1="524" y1="170" x2="552" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="530" y1="180" x2="546" y2="180" stroke="#333" stroke-width="2"/>
+  <line x1="538" y1="100" x2="538" y2="170" stroke="#333" stroke-width="2"/>
+  <line x1="538" y1="180" x2="538" y2="330" stroke="#333" stroke-width="2"/>
+  <line x1="538" y1="100" x2="666" y2="100" stroke="#bbb" stroke-width="1.8" stroke-dasharray="5 4"/>
+
+  <!-- Q1 OFF -->
+  <rect x="638" y="118" width="56" height="46" rx="4" fill="#eeeeee" stroke="#999" stroke-width="2" stroke-dasharray="4 3"/>
+  <text x="666" y="139" text-anchor="middle" font-size="13" font-weight="bold" fill="#888">Q1</text>
+  <text x="666" y="156" text-anchor="middle" font-size="11" fill="#888">OFF</text>
+  <line x1="666" y1="100" x2="666" y2="118" stroke="#999" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <line x1="666" y1="164" x2="666" y2="200" stroke="#999" stroke-width="1.6" stroke-dasharray="4 3"/>
+  <text x="626" y="145" text-anchor="end" font-size="11" fill="#888">G</text>
+
+  <!-- Q2 ON -->
+  <rect x="638" y="230" width="56" height="46" rx="4" fill="#bbdefb" stroke="#1565c0" stroke-width="2"/>
+  <text x="666" y="251" text-anchor="middle" font-size="13" font-weight="bold" fill="#0d47a1">Q2</text>
+  <text x="666" y="268" text-anchor="middle" font-size="11" fill="#0d47a1">ON</text>
+  <line x1="666" y1="276" x2="666" y2="330" stroke="#1565c0" stroke-width="3.5" marker-end="url(#arb)"/>
+  <text x="626" y="257" text-anchor="end" font-size="11" fill="#888">G(低边驱动)</text>
+
+  <!-- SW node -->
+  <circle cx="666" cy="200" r="4" fill="#1565c0"/>
+  <text x="666" y="222" text-anchor="middle" font-size="12" font-weight="bold" fill="#1565c0">SW ≈ 0V</text>
+  <line x1="666" y1="200" x2="666" y2="230" stroke="#1565c0" stroke-width="3.5"/>
+
+  <!-- L freewheel -->
+  <line x1="666" y1="200" x2="716" y2="200" stroke="#1565c0" stroke-width="3.5" marker-end="url(#arb)"/>
+  <path d="M716,200 a11,11 0 0 1 22,0 a11,11 0 0 1 22,0 a11,11 0 0 1 22,0" fill="none" stroke="#333" stroke-width="2.4"/>
+  <text x="749" y="182" text-anchor="middle" font-size="13" fill="#333">L 释放能量</text>
+  <line x1="782" y1="200" x2="846" y2="200" stroke="#1565c0" stroke-width="3.5" marker-end="url(#arb)"/>
+
+  <!-- freewheel loop highlight -->
+  <path d="M666,206 L666,200" stroke="#1565c0" stroke-width="3.5"/>
+  <text x="700" y="318" text-anchor="middle" font-size="11.5" fill="#1565c0" font-weight="bold">续流回路</text>
+  <path d="M690,206 C 660,230 640,270 660,300" fill="none" stroke="#1565c0" stroke-width="1.6" stroke-dasharray="4 3"/>
+
+  <!-- Cout -->
+  <line x1="816" y1="200" x2="816" y2="238" stroke="#333" stroke-width="2"/>
+  <line x1="802" y1="238" x2="830" y2="238" stroke="#333" stroke-width="2.6"/>
+  <line x1="802" y1="248" x2="830" y2="248" stroke="#333" stroke-width="2.6"/>
+  <line x1="816" y1="248" x2="816" y2="330" stroke="#333" stroke-width="2"/>
+  <text x="792" y="272" text-anchor="end" font-size="12" fill="#333">Cout</text>
+
+  <!-- Rload -->
+  <line x1="886" y1="200" x2="886" y2="232" stroke="#1565c0" stroke-width="3.5"/>
+  <rect x="876" y="232" width="20" height="66" fill="#fff" stroke="#333" stroke-width="2.2"/>
+  <line x1="886" y1="298" x2="886" y2="330" stroke="#333" stroke-width="2"/>
+  <text x="908" y="270" font-size="12" fill="#333">负载</text>
+  <line x1="846" y1="200" x2="886" y2="200" stroke="#1565c0" stroke-width="3.5"/>
+  <text x="938" y="204" font-size="13" font-weight="bold" fill="#2e7d32">Vout</text>
+
+  <!-- GND -->
+  <line x1="538" y1="330" x2="886" y2="330" stroke="#333" stroke-width="2"/>
+  <line x1="692" y1="330" x2="732" y2="330" stroke="#333" stroke-width="2.6"/>
+  <line x1="700" y1="338" x2="724" y2="338" stroke="#333" stroke-width="2.2"/>
+  <line x1="707" y1="346" x2="717" y2="346" stroke="#333" stroke-width="1.8"/>
+
+  <text x="733" y="378" text-anchor="middle" font-size="13" fill="#1565c0" font-weight="bold">Vin 断开，L 靠 Q2 续流继续供电</text>
+  <text x="733" y="400" text-anchor="middle" font-size="12.5" fill="#444">V_L = 0 − Vout &lt; 0　→　i_L 线性下降</text>
+  <text x="733" y="422" text-anchor="middle" font-size="12" fill="#777">di/dt = −Vout / L</text>
+
+  <!-- bottom note -->
+  <text x="490" y="466" text-anchor="middle" font-size="13" fill="#333">同步整流 = 用 <tspan font-weight="bold" fill="#0d47a1">Q2（低边 MOS）</tspan> 替代异步 BUCK 里的<tspan font-weight="bold" fill="#c62828">续流二极管</tspan>，靠 IR2104 内部 525ns 固定死区防直通</text>
+  <text x="490" y="488" text-anchor="middle" font-size="12.5" fill="#666">本工程 MCU 只出 1 路 PWM（PA8 / TIM1_CH1）→ IR2104 自动生成互补的 HO / LO</text>
+</svg>
