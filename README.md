@@ -367,8 +367,8 @@ u(k)=K_Pe(k)+K_I\sum_{i=0}^{k}e(i)
 
 ## 12. 实物图
 
-![alt text](板子实物图.jpg)
-![alt text](串口屏界面.jpg)
+![alt text](板子实物图.png)
+![alt text](串口屏界面.png)
 
 ## 13. 总结
 
