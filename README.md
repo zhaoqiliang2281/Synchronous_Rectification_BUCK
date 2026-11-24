@@ -375,3 +375,7 @@ u(k)=K_Pe(k)+K_I\sum_{i=0}^{k}e(i)
 本设计以 STM32F401RCT6 为控制核心，通过 IR2104 驱动上下桥臂 MOSFET 构成同步整流 BUCK 降压功率级，实现直流输入到可调直流输出的电能变换。辅助电源模块为控制和驱动电路提供多路工作电压；反馈采样模块通过电阻分压和 INA180A2 电流检测放大器获取输入电压、输出电压及输出电流信息，为后续数字闭环控制提供数据基础。
 
 整个系统的关键在于功率变换、驱动时序、反馈采样和控制算法之间的协调。完成原理图设计后，还需要结合 PCB 布局、固件开发和分阶段实测，验证输出范围、带载能力、稳定性、效率及保护功能。
+
+## 14. 参考开源
+
+- 嘉立创开源开源广场原作者网址：<https://oshwhub.com/ncc2023/stm32-cnc-power-supply?jlc_vid=QAVcX1IHFFAMUFEDQQBYBFMFEVJWAQIAFFJfBFZVQ1gxVlNfQlBZV1VRQFZfUTtWKAkaExQVTU5BCBcOAAkbBUoFGAw=>
